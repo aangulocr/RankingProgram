@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<main>
+	<h1>Bodega de Herramientas</h1>
+	<div class="row row-cols-1 row-cols-md-4 g-2">
+		<div class="col">
+			<a href="@Url.Action("Empleados","Home")" style="text-decoration:none">
+				<div class="card" >
+					<img src="~/Images/Colaboradores.jpg" class="card-img-top" alt="imagen de colaboradores">
+					<div class="card-body" >
+						<h5 class="card-title">Colaboradores</h5>
+						<p class="card-text">Desde esta opcion puede Crear y Editar los colaboradores de la Empresa</p>
+					</div>
+				</div>
+			</a>
+		</div>
+		<div class="col">
+			<a href="#" style="text-decoration:none">
+				<div class="card">
+					<img src="~/Images/tools.jpg" class="card-img-top" alt="...">
+					<div class="card-body">
+						<h5 class="card-title">Herramientas</h5>
+						<p class="card-text">Desde esta opcion puede Crear, Editar las Herramientas de la Empresa</p>
+					</div>
+				</div>
+			</a>
+		</div>
+		<div class="col">
+			<a href="#" style="text-decoration:none">
+				<div class="card">
+					<img src="~/Images/toolsOut.jpg" class="card-img-top" alt="...">
+					<div class="card-body">
+						<h5 class="card-title">Prestamo de Herramienta</h5>
+						<p class="card-text">Dar Clic en esta Opción para Ingresar el Préstamo de la herramienta.</p>
+					</div>
+				</div>
+			</a>
+		</div>
+		<div class="col">
+			<a href="#" style="text-decoration:none">
+				<div class="card">
+					<img src="~/Images/toolsIn.jpg" class="card-img-top" alt="...">
+					<div class="card-body">
+						<h5 class="card-title">Devolución de Herramienta</h5>
+						<p class="card-text">Dar Clic en esta Opción para Ingresar la Devolución de la Herramienta.</p>
+					</div>
+				</div>
+			</a>
+		</div>
+	</div>
+
+</main>

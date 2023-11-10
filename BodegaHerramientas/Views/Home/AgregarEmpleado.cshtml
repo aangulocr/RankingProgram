@@ -1,0 +1,56 @@
+﻿@model BodegaHerramientas.Models.Empleado
+
+@{
+	ViewBag.Title = "Registrar Empleado";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Agregar Nuevo Empleado</h2>
+
+<div class="row" style="margin-top:30px">
+	<div class="col-sm-12">
+		<div class="p">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h4>Empleado:</h4>
+				</div>
+				<div class="panel-body">
+					<form action="@Url.Action("AgregarEmpleado","Home")" method="post">
+						<div class="form-group">
+							<label>Cedula</label>
+							<input type="text" class="form-control" name="Cedula" />
+						</div>
+
+						<div class="form-group">
+							<label>Nombre</label>
+							<input type="text" class="form-control" name="Nombre" />
+						</div>
+
+						<div class="form-group">
+							<label>Apellido</label>
+							<input type="text" class="form-control" name="Apellido" />
+						</div>
+
+						<div class="form-group">
+							<label for="fecha_ingreso">Fecha de Ingreso</label>
+							<input type="date" id="fecha_ingreso" class="form-control" name="fecha_ingreso" />
+						</div>
+
+						<div class="form-group mt-3">						
+							<input type="checkbox" name="activo" value="true" checked> Empleado [Activo]<br>													    
+						</div>
+						<br />
+						<button type="submit" class="btn btn-primary">Registrar</button>
+						<a class="btn btn-warning" href="@Url.Action("Empleados","Home")">Volver</a>
+
+					
+
+					</form>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+</div>
+
