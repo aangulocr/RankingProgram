@@ -15,6 +15,8 @@ namespace RankingProgram.Models
 
         public double Puntos { get; set; }
 
+        public double Porcentaje { get; set; }
+
         public double? Diferencia { get; set; }
     }
 }
