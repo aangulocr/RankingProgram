@@ -33,21 +33,39 @@ namespace RankingProgram.Controllers
             {
                 using (SqlConnection objCon = new SqlConnection(conexion))
                 {
+
+                    //######### PRIMER COMANDO SQL OBTENER LENGUAJES DE PROGRAMACION #######
+                    string query = "SELECT Programa FROM Tbl_ProgramScore";
+                    SqlCommand command = new SqlCommand(query, objCon);
+                    objCon.Open();
+
+                    SqlDataReader readProg = command.ExecuteReader();
+                    List<string> programas = new List<string>();
+
+                    while (readProg.Read())
+                    {
+                        programas.Add(readProg["Programa"].ToString());
+                    }
+
+                    HttpContext.Session["Programas"] = programas;
+                    objCon.Close();
+
+                    //######### SEGUNDO COMANDO SQL TOP RANKING ############################
                     SqlCommand cmd = new SqlCommand("sp_GetTopRanking", objCon);
 
                     cmd.CommandType = CommandType.StoredProcedure;
                     objCon.Open();
 
+
+                    //####### TERCER COMANDO SQL PUNTOS TOTALES #########################
                     SqlCommand cmd2 = new SqlCommand("sp_GetTotalPuntos", objCon);
                     cmd2.CommandType = CommandType.StoredProcedure;
 
                     HttpContext.Session["TotalPuntos"] = cmd2.ExecuteScalar();
-
-
-                    //var numTotal = cmd2.ExecuteScalar();
+                    //HttpContext.Application["Lenguajes"]                   
 
                     var total = Convert.ToDecimal(HttpContext.Session["TotalPuntos"]);
-
+                    
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
@@ -103,40 +121,110 @@ namespace RankingProgram.Controllers
                 {
                     _UpdateDiferencia[i].Diferencia = 0;
                 }
-
             }
 
             HttpContext.Session["Top20"] = _UpdateDiferencia;
 
         }
 
-
-
-
-
-        private List<Ranking> GetRanking()
+        public ActionResult Encuestado()
         {
-            // Guardar un valor en la sesión
-            Session["Nombre"] = "Juan";
+            
+            Encuestado _encuestado = new Encuestado();
 
-            // Obtener un valor de la sesión
-            string nombre = Session["Nombre"] as string;
+            _encuestado.Pais = GetPaises();
+            _encuestado.Role = GetRoles();
 
+            //ojo lenguaje primario y secundario revisar esta vacio..
+            _encuestado.LenguajePrimario = (List<string>)HttpContext.Session["Programas"];
+            _encuestado.LenguajeSecundario = (List<string>)HttpContext.Session["Programas"];
 
-            // Otors ejemplos serian
-            // Guardar y obtener valores en la sesión y la aplicación
-            HttpContext.Session["Nombre2"] = "Marco";
-            HttpContext.Application["Titulo"] = "Mi sitio web";
-            string nombre2 = HttpContext.Session["Nombre2"] as string;
-            string titulo = HttpContext.Application["Titulo"] as string;
-
-            return new List<Ranking>
-            {
-                new Ranking{Posicion = 1, LenguajeProgramacion = "JavaScript", Puntos = 20.5, Diferencia = 2.5},
-                 new Ranking{Posicion = 2, LenguajeProgramacion = "Java", Puntos = 10.5, Diferencia = 6.5},
-            };
-
-
+            return View(_encuestado);
         }
+
+        [HttpPost]
+        public ActionResult Encuestado(Encuestado _Encuestado)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Error = "Debe Completar Todos los Campos";
+                return View();
+            }
+            string lenguajePrimario = _Encuestado.LenguajePrimario[0].ToString().ToUpper();
+            string lenguajeSecundario = _Encuestado.LenguajeSecundario[0].ToString().ToUpper();
+
+            try { 
+                using (SqlConnection objCon = new SqlConnection(conexion))
+                {
+                    // Lenguaje de Programacion primario
+                    SqlCommand cmd = new SqlCommand("sp_UpdateRanking", objCon);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@Programa", lenguajePrimario);
+                    cmd.Parameters.AddWithValue("@Puntos", 1.0);
+
+                    objCon.Open();
+                    cmd.ExecuteNonQuery();
+
+                    // Lenguaje de Programacion secundario
+                    SqlCommand cmd2 = new SqlCommand("sp_UpdateRanking", objCon);
+                    cmd2.CommandType = CommandType.StoredProcedure;
+
+                    cmd2.Parameters.AddWithValue("@Programa", lenguajeSecundario);
+                    cmd2.Parameters.AddWithValue("@Puntos", 0.5);
+
+                    //objCon.Open();
+                    cmd2.ExecuteNonQuery();
+
+                    TempData["Mensaje"] = "Gracias por completar la encuesta.";
+                    var m = _Encuestado;
+                    //return View(_Encuestado);
+                    return RedirectToAction("Index", "Home");
+                }
+            }catch (Exception ex)
+            {
+                TempData["Error"] = ex.Message;
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
+        private List<string> GetPaises()
+        {
+            List<string> _paises = new List<string>();
+
+            _paises.Add("Costa Rica");
+            _paises.Add("Panama");
+            _paises.Add("Nicaragua");
+            _paises.Add("El Salvador");
+            _paises.Add("Honduras");
+            _paises.Add("Guatemala");
+            _paises.Add("Mexico");
+            _paises.Add("Estados Unidos");
+            _paises.Add("Canada");
+            _paises.Add("Belice");
+            _paises.Add("Argentina");
+            _paises.Add("Brazil");
+            _paises.Add("Chile");
+            _paises.Add("Colombia");
+            _paises.Add("Venezuela");
+            _paises.Add("Uruguay");
+
+            return _paises;
+        }
+
+        private List<string> GetRoles()
+        {
+            List<string> _roles = new List<string>();
+
+            _roles.Add("Programador Front-end");
+            _roles.Add("Programador Back-end");
+            _roles.Add("Analista de sistemas");
+            _roles.Add("Diseñador gráfico");
+            _roles.Add("Administrador de proyectos de TI");            
+
+            return _roles;
+        }
+
+
     }
 }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable <RankingProgram.Models.Ranking>
+﻿@model IEnumerable<RankingProgram.Models.Ranking>
 
 @{
 	ViewBag.Title = "Index";
@@ -7,7 +7,22 @@
 
 <h2>Encuesta de Lenguajes de Programación</h2>
 <p>Resumen de Indice de Encuesta de Lenguaje de programación</p>
-<a class="btn btn-primary btn-sm" href="#"><i class="bi bi-pencil-square"> Agregar Encuesta</i></a>
+
+@if (TempData["Mensaje"] != null)
+{
+	<div class="alert alert-success" role="alert">
+		@TempData["Mensaje"]
+	</div>
+}
+
+@if (TempData["Error"] != null)
+{
+	<div class="alert alert-danger" role="alert">		
+		@TempData["Error"]
+	</div>
+}
+
+<a class="btn btn-primary btn-sm" href="@Url.Action("Encuestado", "Home")"><i class="bi bi-pencil-square"> Agregar Encuesta</i></a>
 <hr />
 <div class="table-responsive">
 	<table class="table table-striped">

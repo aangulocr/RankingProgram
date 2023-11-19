@@ -1,0 +1,94 @@
+﻿@model RankingProgram.Models.Encuestado
+
+@{
+    ViewBag.Title = "Encuestado";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Encuestado</h2>
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+	<h4>Encuestado</h4>
+	<hr />
+	@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+	
+
+	@*<div class="form-group">
+			@Html.LabelFor(model => model.IdEncuesta, htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.IdEncuesta, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(model => model.IdEncuesta, "", new { @class = "text-danger" })
+			</div>
+		</div>*@
+
+	<div class="form-group">
+		@Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+		<div class="col-md-10">
+			@Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+			@Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+		</div>
+	</div>
+
+	<div class="form-group">
+		@Html.LabelFor(model => model.Apellido, htmlAttributes: new { @class = "control-label col-md-2" })
+		<div class="col-md-10">
+			@Html.EditorFor(model => model.Apellido, new { htmlAttributes = new { @class = "form-control" } })
+			@Html.ValidationMessageFor(model => model.Apellido, "", new { @class = "text-danger" })
+		</div>
+	</div>
+
+	<div class="form-group">
+		@Html.LabelFor(model => model.Pais, htmlAttributes: new { @class = "control-label col-md-2" })
+		<div class="col-md-10">
+			@Html.DropDownListFor(model => model.Pais, new SelectList(Model.Pais, "Nombre"), "Elija una Opcion")
+			@Html.ValidationMessageFor(model => model.Pais, "", new { @class = "text-danger" })
+		</div>
+	</div>
+
+	<div class="form-group">
+		@Html.LabelFor(model => model.Role, htmlAttributes: new { @class = "control-label col-md-2" })
+		<div class="col-md-10">
+			@Html.DropDownListFor(model => model.Role, new SelectList(Model.Role, "Role"), "Elija una Opcion")
+			@Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })
+		</div>
+	</div>
+
+	<div class="form-group">
+		@Html.LabelFor(model => model.LenguajePrimario, htmlAttributes: new { @class = "control-label col-md-2" })
+		<div class="col-md-10">
+			@Html.DropDownListFor(model => model.LenguajePrimario, new SelectList(Model.LenguajePrimario, "Lenguaje Primario"), "Elija una Opcion")
+			@Html.ValidationMessageFor(model => model.LenguajePrimario, "", new { @class = "text-danger" })
+		</div>
+	</div>
+
+	<div class="form-group">
+		@Html.LabelFor(model => model.LenguajeSecundario, htmlAttributes: new { @class = "control-label col-md-2" })
+		<div class="col-md-10">
+			@Html.DropDownListFor(model => model.LenguajeSecundario, new SelectList(Model.LenguajeSecundario, "Lenguaje Primario"), "Elija una Opcion")
+			@Html.ValidationMessageFor(model => model.LenguajeSecundario, "", new { @class = "text-danger" })
+		</div>
+	</div>
+
+
+	<br />
+	<div class="form-group">
+		<div class="col-md-offset-2 col-md-10">
+			<input type="submit" value="Create" class="btn btn-primary" />
+		</div>
+	</div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
