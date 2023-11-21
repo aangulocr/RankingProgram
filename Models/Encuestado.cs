@@ -10,10 +10,14 @@ namespace RankingProgram.Models
     {
         public int IdEncuesta { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El Nombre es Requerido")]
+        [StringLength(15, MinimumLength = 3, ErrorMessage = "Nombre debe ser entre 3 a 20 Caracteres")]        
+        [RegularExpression(@"^[a-zA-Z]+\s?\w*\s?\w*\s?$", ErrorMessage = "Error de Texto")]
         public string Nombre { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El Nombre es Requerido")]
+        [StringLength(15, MinimumLength = 3, ErrorMessage = "Nombre debe ser entre 3 a 30 Caracteres")]
+        [RegularExpression(@"^[a-zA-Z]+\s?\w*\s?\w*\s?$", ErrorMessage = "Error de Texto")]
         public string Apellido { get; set; }
 
         [Required]
